@@ -21,7 +21,7 @@ class LoginViewModel @Inject constructor(
         prefs.edit()
             .putString("username", username)
             .putString("password", password)
-            .putString("domain", "34.196.51.80")
+            .putString("domain", "your domain")
             .putBoolean("logged_in", true)
             .apply()
     }
