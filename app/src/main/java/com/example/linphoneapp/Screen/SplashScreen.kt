@@ -74,8 +74,7 @@ fun SplashScreen(
     val loginViewModel: LoginViewModel = hiltViewModel()
 
     val reg by viewModel.regState.collectAsState()
-
-
+    
     var logoScale by remember { mutableStateOf(0f) }
     var logoRotation by remember { mutableStateOf(0f) }
     var textAlpha by remember { mutableStateOf(0f) }
@@ -232,7 +231,7 @@ fun SplashScreen(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center
                     ) {
-                        Image(    painter = painterResource(id = R.drawable.ic_launcher_background)
+                        Image(    painter = painterResource(id = R.drawable.user)
                             ,"", Modifier
                                 .size(40.dp)
                                 .alpha(0.8f))

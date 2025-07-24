@@ -71,7 +71,7 @@ fun RecentScreen(onEndCall: () -> Unit,vm: RecentViewModel = hiltViewModel()) {
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 items(grouped) { call ->
-                    RecentCallItem(call,vm,navController,onEndCall)
+                    RecentCallItem(call,navController)
                 }
             }
         }
@@ -82,9 +82,7 @@ fun RecentScreen(onEndCall: () -> Unit,vm: RecentViewModel = hiltViewModel()) {
 @Composable
 fun RecentCallItem(
     call: RecentCall,
-    vm: RecentViewModel,
     navController: NavHostController,
-    onEndCall: () -> Unit
 ) {
     Log.d("TAG>>", "RecentCallItem: " + call.number)
 
@@ -192,7 +190,7 @@ fun RecentCallItem(
                 shadowElevation = 2.dp
             ) {
                 IconButton(
-                    onClick = { callo(navController,call.number,onEndCall) },
+                    onClick = { callo(navController,call.number) },
                     modifier = Modifier.fillMaxSize()
                 ) {
                     Icon(
@@ -208,7 +206,7 @@ fun RecentCallItem(
 }
 
 
-private fun callo(navController: NavHostController, number: String?, onEndCall: () -> Unit) {
+private fun callo(navController: NavHostController, number: String?) {
     navController.navigate("outgoing/$number")
 }
 
@@ -283,8 +281,6 @@ fun getContactInitials(phoneNumber: String): String {
         "?"
     }
 }
-
-
 
 fun formatLastCallTime(lastTime: Long): String {
     val currentTime = System.currentTimeMillis() / 1000

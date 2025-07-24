@@ -238,9 +238,6 @@ class LinphoneManager @Inject constructor(
         core.currentCall?.accept()
     }
 
-
-
-
     private fun refreshCallLogs() {
         // Wait a little to make sure the call log is updated in core
         CoroutineScope(Dispatchers.Main).launch {

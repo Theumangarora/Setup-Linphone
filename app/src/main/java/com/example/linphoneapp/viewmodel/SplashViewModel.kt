@@ -11,9 +11,7 @@ import javax.inject.Inject
 class SplashViewModel @Inject constructor(
      val linphoneManager: LinphoneManager
 )  : ViewModel() {
-
     val regState = linphoneManager.registrationState.asStateFlow()
-
     fun isLoggedIn(context: Context): Boolean {
         val prefs = context.getSharedPreferences("prefs", Context.MODE_PRIVATE)
         return prefs.getBoolean("logged_in", false)

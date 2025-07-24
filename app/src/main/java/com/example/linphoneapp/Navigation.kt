@@ -13,6 +13,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.*
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -21,6 +23,7 @@ import androidx.navigation.navArgument
 import com.example.linphoneapp.BottomNav.bottomScreens.ContactsScreen
 import com.example.linphoneapp.BottomNav.bottomScreens.ProfileTabScreen
 import com.example.linphoneapp.BottomNav.bottomScreens.RecentScreen
+import com.example.linphoneapp.R
 import com.example.linphoneapp.Screen.CallInProgressScreen
 import com.example.linphoneapp.Screen.IncomingCallScreen
 import com.example.linphoneapp.Screen.LoginScreen
@@ -43,17 +46,16 @@ sealed class Navigation(val route: String) {
 }
 
 val bottomNavItems = listOf(
-    BottomNavItem(Navigation.HomeTab.route, Icons.Outlined.Home, Icons.Filled.Home, "Home"),
-    BottomNavItem(Navigation.CallTab.route, Icons.Outlined.Call, Icons.Filled.Call, "Calls"),
-    BottomNavItem(Navigation.MessageTab.route, Icons.Outlined.DateRange, Icons.Filled.DateRange, "Messages"),
-    BottomNavItem(Navigation.ProfileTab.route, Icons.Outlined.Person, Icons.Filled.Person, "Profile")
+    BottomNavItem(Navigation.HomeTab.route, R.drawable.recent, R.drawable.recent, "Home"),
+    BottomNavItem(Navigation.CallTab.route, R.drawable.telephone, R.drawable.telephone, "Calls"),
+    BottomNavItem(Navigation.MessageTab.route, R.drawable.dialpad, R.drawable.dialpad, "Messages"),
+    BottomNavItem(Navigation.ProfileTab.route, R.drawable.user, R.drawable.user, "Profile")
 )
 
 
 @SuppressLint("NewApi")
 @Composable
 fun VoipApp(navController1: NavHostController, callViewModel: CallViewModel) {
-    val INCOMING_CALL_ROUTE = "incoming_call/{caller}"
 
     val navController = navController1
     NavHost(
@@ -91,7 +93,10 @@ fun VoipApp(navController1: NavHostController, callViewModel: CallViewModel) {
             HomeScreen(
                 onLogout = {
                     navController.navigate(Navigation.Login.route) {
-                        popUpTo(0) { inclusive = true }
+                        popUpTo(navController.graph.startDestinationId) {
+                            inclusive = true
+                        }
+
                     }
                 },
                 onEndCall = {
@@ -158,7 +163,6 @@ fun HomeScreen(
     onEndCall: () -> Unit,
     navController: NavHostController,
 
-
     ) {
     val currentTab = remember { mutableStateOf(Navigation.HomeTab.route) }
 
@@ -205,8 +209,12 @@ fun BottomNavigationBar(
                 NavigationBarItem(
                     icon = {
                         Icon(
-                            if (selectedRoute == item.route) item.selectedIcon else item.icon,
-                            contentDescription = item.label
+                            painter = painterResource(
+                                id = if (selectedRoute == item.route) item.selectedIcon else item.iconRes
+                            ),
+                            contentDescription = item.label,
+                            tint = Color.Unspecified,
+                            modifier = Modifier.size(24.dp)
                         )
                     },
                     label = { Text(item.label) },
